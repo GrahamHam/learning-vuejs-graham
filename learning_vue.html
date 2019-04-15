@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<!--
+	
+	THIS FILE GOES THROUGH STEPS EXPLAINING HOW TO USE VUE.JS
+
+	LEGEND FOR COMMENTS:
+
+	// AT START: EXPLAINING CSS STYLING.
+	1. 2. ETC. : COMMENTS WITH MULTIPLE EXPLAINATIONS.
+
+-->
+
+<html>
+	<head>
+
+<!--	LINK TO BOOTSTRAP (JUST TO MAKE THINGS LOOK BETTER)-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	</head>
+
+	<body>
+<!--HTML STEP ONE
+/////////////////-->
+
+		<!--FOR JQUERY AND VANILLA JS-->
+		<!--<h1 id="greeting"></h1>-->
+
+		<!--FOR VUE.JS-->
+		<div id="app" class="col" style="padding: 50px; background: red;">
+		<!--{{}} is for string interpolations-->
+		<!--{{}} only use double curly brackets when working inside tags-->
+			<h1>{{greeting}}</h1>
+		</div>
+
+<!--/////////////
+HTML STEP TWO
+/////////////////-->
+
+		<div id="appTwo" class="col" style="padding: 50px; background: pink;">
+			<form>
+<!--			//FORM-GROUP CLASS IS JUST ADDING PADDING TO THE BOTTOM OF THE LABEL AND INPUT-->
+				<div class="form-group">
+<!--				LABEL FOR THE FORM INPUT-->
+					<label for="email">Email</label>
+<!--				//INPUT FIELD, FORM-CONTROL CLASSES JUST ADD A BIT OF STYLING-->
+					<input type="email" class="form-control form-control-lg">
+				</div>
+				
+<!--			BTN CLASSES JUST STYLE-->
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP THREE
+/////////////////-->
+
+		<div id="appThree" class="col" style="padding: 50px; background: red;">
+			<form>
+<!--			FORM GROUP IS JUST ADDING PADDING TO THE BOTTOM OF THE LABEL AND INPUT-->
+				<div class="form-group">
+<!--				LABEL FOR THE FORM INPUT-->
+					<label for="email">Email</label>
+<!--				//INPUT FIELD, FORM-CONTROL CLASSES JUST ADD A BIT OF STYLING-->
+<!--				1. V-BIND (A DIRECTIVE) ATTRIBUTE IS A SPECIAL VUE.JS ONLY ATTRIBUTE NOT A STANDARD HTML ATTRIBUTE-->
+<!--				2. V-BIND INDICATES THAT WERE GOING TO USE VUE.JS TO CONTROL ONE OF THE STANDARD HTML ATTRIBUTES-->
+<!--				SHORT VERSION YOU CAN JUST PUT THE COLON : INSTEAD OF LONG VERSION (v-bind:value="email")-->
+<!--				VALUE IS TO HAVE A PREMADE INPUT VALUE THAT WILL SHOW UP-->
+					<input type="email" v-bind:value="email" class="form-control form-control-lg">
+				</div>
+				
+<!--			BTN CLASSES JUST STYLE-->
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+		<!--LINK TO JQUERY-->
+		<!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>-->
+
+		<!--LINK TO VUE.JS-->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+
+		<!--JS SCRIPT STEPS-->
+		<script>
+
+//JS STEP ONE
+///////////////
+
+			//USING REGULAR JAVASCRIPT
+			//document.getElementById('greeting').innerText = 'Hello from vanilla JavaScript!';
+
+			//JQUERY WAY
+			//$('#greeting').text('Hello from jQuery!');
+
+			//VUE WAY
+			new Vue({
+				//TARGETTING THE HTML ELEMENT
+				el: '#app',
+				//OBJECT THAT CONTAINS OUR VARIABLES
+				data: {
+					greeting: 'Hello from Vue!'
+				}
+			});
+
+///////////////
+//JS STEP TWO
+///////////////
+
+			//DOES NOTHING JUST TO SHOW WHAT TO HAVE TO GO INTO STEP THREE
+			new Vue({
+				el: '#appTwo',
+				data: { 
+					
+				}
+			});
+
+///////////////
+//JS STEP THREE
+///////////////
+
+			//DOES NOTHING JUST TO SHOW WHAT TO HAVE TO GO INTO STEP THREE
+			new Vue({
+				el: '#appThree',
+				data: { 
+					email: 'example@email.com'
+				}
+			});
+
+		</script>
+	</body>
+</html>
