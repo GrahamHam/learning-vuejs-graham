@@ -28,6 +28,7 @@
 
 		<!--FOR VUE.JS-->
 		<div id="app" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART ONE</h1>
 		<!--{{}} is for string interpolations-->
 		<!--{{}} only use double curly brackets when working inside tags-->
 			<h1>{{greeting}}</h1>
@@ -38,6 +39,7 @@ HTML STEP TWO
 /////////////////-->
 
 		<div id="appTwo" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART TWO</h1>
 			<form>
 <!--			//FORM-GROUP CLASS IS JUST ADDING PADDING TO THE BOTTOM OF THE LABEL AND INPUT-->
 				<div class="form-group">
@@ -47,7 +49,7 @@ HTML STEP TWO
 					<input type="email" class="form-control form-control-lg">
 				</div>
 				
-<!--			BTN CLASSES JUST STYLE-->
+<!--			//BTN CLASSES JUST STYLE-->
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
 		</div>
@@ -57,26 +59,76 @@ HTML STEP THREE
 /////////////////-->
 
 		<div id="appThree" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART THREE</h1>
 			<form>
-<!--			FORM GROUP IS JUST ADDING PADDING TO THE BOTTOM OF THE LABEL AND INPUT-->
 				<div class="form-group">
-<!--				LABEL FOR THE FORM INPUT-->
 					<label for="email">Email</label>
-<!--				//INPUT FIELD, FORM-CONTROL CLASSES JUST ADD A BIT OF STYLING-->
 <!--				1. V-BIND (A DIRECTIVE) ATTRIBUTE IS A SPECIAL VUE.JS ONLY ATTRIBUTE NOT A STANDARD HTML ATTRIBUTE-->
 <!--				2. V-BIND INDICATES THAT WERE GOING TO USE VUE.JS TO CONTROL ONE OF THE STANDARD HTML ATTRIBUTES-->
 <!--				SHORT VERSION YOU CAN JUST PUT THE COLON : INSTEAD OF LONG VERSION (v-bind:value="email")-->
 <!--				VALUE IS TO HAVE A PREMADE INPUT VALUE THAT WILL SHOW UP-->
-					<input type="email" v-bind:value="email" class="form-control form-control-lg">
+					<input type="email" :value="emailThree" class="form-control form-control-lg">
 				</div>
 				
-<!--			BTN CLASSES JUST STYLE-->
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
 		</div>
 
+<!--/////////////
+HTML STEP FOUR
+/////////////////-->
+
+		<div id="appFour" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART FOUR</h1>
+			<form>
+				<div class="form-group">
+					<label for="email">Email</label>
+<!--				CHANGED :VALUE TO V-MODEL-->
+					<input type="email" v-model="emailFour" class="form-control form-control-lg">
+				</div>
+				
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP FIVE
+/////////////////-->
+
+		<div id="appFive" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART FIVE</h1>
+			<form>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailFive" class="form-control form-control-lg">
+				</div>
+				
+<!--			V-ON:CLICK="PROCESS" INTERCEPTS THE SUMBIT BUTTON REFRESHING-->
+<!--			USING NEW METHOD CALLED PROCESS-->
+				<button type="submit" v-on:click="process" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP SIX
+/////////////////-->
+
+		<div id="appSix" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART SIX</h1>
+			<form>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailSix" class="form-control form-control-lg">
+				</div>
+				
+<!--			.prevent PREVENTS THE BUTTON FROM REFRESHING THE PAGE WHEN CLICKED-->
+<!--			"v-on" SHORT FORM IS "@" SIMILAR TO "v-bind" SHORT FORM-->
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
 		<!--LINK TO JQUERY-->
-		<!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>-->
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
 
 		<!--LINK TO VUE.JS-->
 		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
@@ -94,7 +146,7 @@ HTML STEP THREE
 			//$('#greeting').text('Hello from jQuery!');
 
 			//VUE WAY
-			new Vue({
+			var vmOne = new Vue({
 				//TARGETTING THE HTML ELEMENT
 				el: '#app',
 				//OBJECT THAT CONTAINS OUR VARIABLES
@@ -108,7 +160,7 @@ HTML STEP THREE
 ///////////////
 
 			//DOES NOTHING JUST TO SHOW WHAT TO HAVE TO GO INTO STEP THREE
-			new Vue({
+			var vmTwo = new Vue({
 				el: '#appTwo',
 				data: { 
 					
@@ -119,11 +171,59 @@ HTML STEP THREE
 //JS STEP THREE
 ///////////////
 
-			//DOES NOTHING JUST TO SHOW WHAT TO HAVE TO GO INTO STEP THREE
-			new Vue({
+			var vmThree = new Vue({
 				el: '#appThree',
 				data: { 
-					email: 'example@email.com'
+					emailThree: 'example3@email.com'
+				}
+			});
+
+///////////////
+//JS STEP FOUR
+///////////////
+
+			var vmFour = new Vue({
+				el: '#appFour',
+				data: { 
+					emailFour: 'example4@email.com'
+				}
+			});
+
+///////////////
+//JS STEP FIVE
+///////////////
+
+			var vmFive = new Vue({
+				el: '#appFive',
+				data: { 
+					emailFive: 'example5@email.com'
+				},
+				//CREATING METHODS OBJECT
+				methods: {
+					//DEFINING A FUNCTION CALLED PROCESS
+					process: function(event) {
+						//PREVENTS FROM REFRESHING PAGE WHEN CLICKED
+						event.preventDefault();
+						//INSIDE A METHOD IF YOU WANNA REFER TO ANOTHER METHOD OR PROPERTY YOU WANT TO USE THE "this" KEYWORD OR "vmFive"
+						alert('Submitted' + this.emailFive);
+					}
+				}
+			});
+
+///////////////
+//JS STEP SIX
+///////////////
+
+			var vmSix = new Vue({
+				el: '#appSix',
+				data: { 
+					emailSix: 'example6@email.com'
+				},
+				methods: {
+					process: function() {
+						//DELETED THE EVENT BECAUSE ".process" REPLACES IT
+						alert('Submitted ' + this.emailSix);
+					}
 				}
 			});
 
