@@ -20,6 +20,12 @@
 	</head>
 
 	<body>
+		<style>
+/*			USE SQUARE BRACKETS BECAUSE ITS AN ATTRIBUTE*/
+			[v-cloak] {
+				display: none;
+			}
+		</style>
 <!--HTML STEP ONE
 /////////////////-->
 
@@ -113,7 +119,7 @@ HTML STEP FIVE
 HTML STEP SIX
 /////////////////-->
 
-		<div id="appSix" class="col" style="padding: 50px; background: red;">
+		<div id="appSix" class="col" style="padding: 50px; background: pink;">
 			<h1 style="padding-bottom:30px;">PART SIX</h1>
 			<form>
 				<div class="form-group">
@@ -125,6 +131,65 @@ HTML STEP SIX
 <!--			"v-on" SHORT FORM IS "@" SIMILAR TO "v-bind" SHORT FORM-->
 				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
 			</form>
+		</div>
+
+<!--/////////////
+HTML STEP SEVEN
+/////////////////-->
+
+		<div id="appSeven" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART SEVEN</h1>
+<!--		ADD "v-if" SO, IF NOT SUBMITTED-->
+			<form v-if="!submitted">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailSeven" class="form-control form-control-lg">
+				</div>
+				
+<!--			.prevent PREVENTS THE BUTTON FROM REFRESHING THE PAGE WHEN CLICKED-->
+<!--			"v-on" SHORT FORM IS "@" SIMILAR TO "v-bind" SHORT FORM-->
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP EIGHT
+/////////////////-->
+
+		<div id="appEight" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART EIGHT</h1>
+			<form v-if="!submitted">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailEight" class="form-control form-control-lg">
+				</div>
+				
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+<!--		1. PUT "v-if="submitted" IF ITS SUBMITTED IT SHOWS THE MESSAGE-->
+<!--		2. REPLACE "v-if="submitted" WITH JUST "v-else", SO IF IT IS SUBMITTED IT SHOWS THE MESSAGE-->
+<!--		3. REPLACE "v-else" with "v-show="submitted" (IT DISPLAYS NONE, INSTEAD OF GETTING RID OF IT ALL TOGETHER), SO IT USES LESS POWER TO DISPLAY THE FORM AGAIN-->
+			<h2 v-show="submitted">Thanks for Signing up!</h2>
+		</div>
+
+<!--/////////////
+HTML STEP NINE
+/////////////////-->
+
+		<div id="appNine" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART NINE</h1>
+			<form v-if="!submitted">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailNine" class="form-control form-control-lg">
+				</div>
+				
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+<!--		FIXING THE PROBLEM OF MESSAGE SHOWING UP WHEN RAPIDLY REFRESHING-->
+<!--		1. "v-cloak" hides the element with css but then removed when view is initialized-->
+<!--		2. "v-cloak" doesn't do anything on its own, have to add a css "display: none;" to it to work properly-->
+			<h2 v-show="submitted" v-cloak >Thanks for Signing up!</h2>
 		</div>
 
 		<!--LINK TO JQUERY-->
@@ -205,7 +270,7 @@ HTML STEP SIX
 						//PREVENTS FROM REFRESHING PAGE WHEN CLICKED
 						event.preventDefault();
 						//INSIDE A METHOD IF YOU WANNA REFER TO ANOTHER METHOD OR PROPERTY YOU WANT TO USE THE "this" KEYWORD OR "vmFive"
-						alert('Submitted' + this.emailFive);
+						alert('Submitted ' + this.emailFive);
 					}
 				}
 			});
@@ -223,6 +288,58 @@ HTML STEP SIX
 					process: function() {
 						//DELETED THE EVENT BECAUSE ".process" REPLACES IT
 						alert('Submitted ' + this.emailSix);
+					}
+				}
+			});
+
+///////////////
+//JS STEP SEVEN
+///////////////
+
+			var vmSeven = new Vue({
+				el: '#appSeven',
+				data: { 
+					emailSeven: 'example7@email.com',
+					//USE THIS WITH V-IF DIRECTIVE ON THE FORM ELEMENT
+					submitted: false
+				},
+				methods: {
+					process: function() {
+						this.submitted = true;
+					}
+				}
+			});
+
+///////////////
+//JS STEP EIGHT
+///////////////
+
+			var vmEight = new Vue({
+				el: '#appEight',
+				data: { 
+					emailEight: 'example8@email.com',
+					submitted: false
+				},
+				methods: {
+					process: function() {
+						this.submitted = true;
+					}
+				}
+			});
+
+///////////////
+//JS STEP NINE
+///////////////
+
+			var vmNine = new Vue({
+				el: '#appNine',
+				data: {
+					emailNine: 'example9@email.com',
+					submitted: false
+				},
+				methods: {
+					process: function() {
+						this.submitted = true;
 					}
 				}
 			});
