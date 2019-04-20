@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+
+TITLE:
+	
+	THIS FILE GOES THROUGH STEPS EXPLAINING HOW TO USE VUE.JS
+
+LEGEND FOR COMMENTS:
+
+	// AT START: EXPLAINING CSS STYLING.
+	1. 2. ETC. : COMMENTS WITH MULTIPLE EXPLAINATIONS.
+
+-->
+
+	<head>
+
+<!--	LINK TO BOOTSTRAP (JUST TO MAKE THINGS LOOK BETTER)-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	</head>
+
+	<body>
+		<style>
+			
+/*CSS STEP NINE
+/////////////////*/
+			
+/*			USE SQUARE BRACKETS BECAUSE ITS AN ATTRIBUTE*/
+/*			CREATING A "v-cloak" ATTRIBUTE*/
+/*			1. "v-cloak" hides the element with css but then removed when view is initialized*/
+/*			2. "v-cloak" doesn't do anything on its own, have to add a css "display: none;" to it to work properly*/
+			[v-cloak] {
+				display: none;
+			}
+			
+/*///////////////
+CSS STEP EIGHTEEN
+/////////////////*/
+			
+/*			CREATE HIGHLIGHT CLASS TO REPLACE THE STYLE ATTRIBUTES*/
+			.highlight {
+				border: solid 5px orange;
+				color: orange;
+			}
+			
+/*///////////////
+CSS STEP NINETEEN
+/////////////////*/
+			
+/*			CREATE SHOOTING-STAR CLASS WITH VUE STUFF*/
+/*			WHERE I WANT IT TO END UP WHEN IT LEAVES/HIDES*/
+/*			"-leave-to" AND "-enter" ENDING STATE TRANSITIONING TO ON TO OFF*/
+/*			"-enter-to" AND "-leave" ENDING STATE TRANSITIONING TO OFF TO ON*/
+			.shooting-star-leave-to, .shooting-star-enter {
+				transform: translateX(150px) rotate(30deg);
+				opacity: 0;
+			}
+			
+/*			MAKING IT TRANSITION NICE WHEN CLICKED*/
+/*			"-enter-active" AND "-leave-active" APPLIED DURING THE ENTIRE ENTERING/LEAVING PHASE*/
+			.shooting-star-enter-active, .shooting-star-leave-active {
+				transition: all .5s ease;
+			}
+			
+/*///////////////
+CSS STEP NINETEEN &
+CSS STEP 20
+/////////////////*/
+/*			CREATING CLASS WITH VUE STUFF*/
+			.neo-list-leave-to, .neo-list-enter {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			
+/*			DIDN'T WORK RIGHT SO I WENT TO THE VUE TAB IN INSPECTOR AND CLICKED "Inspect DOM"*/
+/*			HAD TO CHANGE "transition-group" to "tbody"*/
+			.neo-list-enter-active, .neo-list-leave-active {
+				transition: all 1s linear;
+			}
+			
+/*///////////////
+CSS STEP 20 ONLY
+/////////////////*/
+			
+/*			DOESNT NEED "leave-to" OR "enter" ETC. BECAUSE ITS ONLY ANIMATING ON ONCE WHEN THE PAGE LOADS*/
+/*			ADD "enter-active" TO HAVE IT ANIMATE ON WHEN PAGE LOADS*/
+			.spin-enter-active {
+/*				CALLING ANIMATION NAME AND SETTING A DURATION TIME*/
+				animation: spin-steps 2s;
+			}
+			
+/*			CREATING ANIMATION*/
+			@keyframes spin-steps{
+				0% {
+					transform: scale(1) rotate(0);
+				}
+				50% {
+					transform: scale(10) rotate(360deg);
+				}
+/*				ROTATES S FEW TIMES WHEN GOING BACK INTO PLACE*/
+				100% {
+					transform: scale(1) rotate(1080deg);
+				}
+			}
+			
+		</style>
+		
+<!--HTML STEP ONE
+/////////////////-->
+
+		<!--FOR JQUERY AND VANILLA JS-->
+		<!--<h1 id="greeting"></h1>-->
+
+		<!--FOR VUE.JS-->
+		<div id="app" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART ONE</h1>
+		<!--{{}} is for string interpolations-->
+		<!--{{}} only use double curly brackets when working inside tags-->
+			<h1>{{greeting}}</h1>
+		</div>
+
+<!--/////////////
+HTML STEP TWO
+/////////////////-->
+
+		<div id="appTwo" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART TWO</h1>
+			<form>
+<!--			//FORM-GROUP CLASS IS JUST ADDING PADDING TO THE BOTTOM OF THE LABEL AND INPUT-->
+				<div class="form-group">
+<!--				LABEL FOR THE FORM INPUT-->
+					<label for="email">Email</label>
+<!--				//INPUT FIELD, FORM-CONTROL CLASSES JUST ADD A BIT OF STYLING-->
+					<input type="email" class="form-control form-control-lg">
+				</div>
+				
+<!--			//BTN CLASSES JUST STYLE-->
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP THREE
+/////////////////-->
+
+		<div id="appThree" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART THREE</h1>
+			<form>
+				<div class="form-group">
+					<label for="email">Email</label>
+<!--				1. V-BIND (A DIRECTIVE) ATTRIBUTE IS A SPECIAL VUE.JS ONLY ATTRIBUTE NOT A STANDARD HTML ATTRIBUTE-->
+<!--				2. V-BIND INDICATES THAT WERE GOING TO USE VUE.JS TO CONTROL ONE OF THE STANDARD HTML ATTRIBUTES-->
+<!--				SHORT VERSION YOU CAN JUST PUT THE COLON ":" INSTEAD OF LONG VERSION (v-bind:value="email")-->
+<!--				VALUE IS TO HAVE A PREMADE INPUT VALUE THAT WILL SHOW UP-->
+					<input type="email" :value="emailThree" class="form-control form-control-lg">
+				</div>
+				
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP FOUR
+/////////////////-->
+
+		<div id="appFour" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART FOUR</h1>
+			<form>
+				<div class="form-group">
+					<label for="email">Email</label>
+<!--				CHANGED :VALUE TO V-MODEL-->
+					<input type="email" v-model="emailFour" class="form-control form-control-lg">
+				</div>
+				
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP FIVE
+/////////////////-->
+
+		<div id="appFive" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART FIVE</h1>
+			<form>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailFive" class="form-control form-control-lg">
+				</div>
+				
+<!--			V-ON:CLICK="PROCESS" INTERCEPTS THE SUBMIT BUTTON REFRESHING-->
+<!--			USING NEW METHOD CALLED PROCESS-->
+				<button type="submit" v-on:click="process" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP SIX
+/////////////////-->
+
+		<div id="appSix" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART SIX</h1>
+			<form>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailSix" class="form-control form-control-lg">
+				</div>
+				
+<!--			.prevent PREVENTS THE BUTTON FROM REFRESHING THE PAGE WHEN CLICKED-->
+<!--			"v-on" SHORT FORM IS "@" SIMILAR TO "v-bind" SHORT FORM-->
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP SEVEN
+/////////////////-->
+
+		<div id="appSeven" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART SEVEN</h1>
+<!--		ADD "v-if" SO, IF NOT SUBMITTED-->
+			<form v-if="!submitted">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailSeven" class="form-control form-control-lg">
+				</div>
+				
+<!--			.prevent PREVENTS THE BUTTON FROM REFRESHING THE PAGE WHEN CLICKED-->
+<!--			"v-on" SHORT FORM IS "@" SIMILAR TO "v-bind" SHORT FORM-->
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+<!--/////////////
+HTML STEP EIGHT
+/////////////////-->
+
+		<div id="appEight" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART EIGHT</h1>
+			<form v-if="!submitted">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailEight" class="form-control form-control-lg">
+				</div>
+				
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+<!--		1. PUT "v-if="submitted" IF ITS SUBMITTED IT SHOWS THE MESSAGE-->
+<!--		2. REPLACE "v-if="submitted" WITH JUST "v-else", SO IF IT IS SUBMITTED IT SHOWS THE MESSAGE-->
+<!--		3. REPLACE "v-else" with "v-show="submitted" (IT DISPLAYS NONE, INSTEAD OF GETTING RID OF IT ALL TOGETHER), SO IT USES LESS POWER TO DISPLAY THE FORM AGAIN-->
+			<h2 v-show="submitted">Thanks for Signing up!</h2>
+		</div>
+
+<!--/////////////
+HTML STEP NINE
+/////////////////-->
+
+		<div id="appNine" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART NINE</h1>
+			<form v-if="!submitted">
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" v-model="emailNine" class="form-control form-control-lg">
+				</div>
+				
+				<button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
+			</form>
+<!--		FIXING THE PROBLEM OF MESSAGE SHOWING UP WHEN RAPIDLY REFRESHING-->
+<!--		1. "v-cloak" hides the element with css but then removed when view is initialized-->
+<!--		2. "v-cloak" doesn't do anything on its own, have to add a css "display: none;" to it to work properly-->
+			<h2 v-show="submitted" v-cloak>Thanks for Signing up!</h2>
+		</div>
+
+<!--/////////////
+HTML STEP TEN
+/////////////////-->
+		
+		<div id="appTen" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART TEN</h1>
+			<div class="container">
+<!--			ATTRIBUTES CONTROLLED BY VUE.JS-->
+				<img :src="imgSrcTen" :title="imgTitleTen">
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP ELEVEN
+/////////////////-->
+		
+		<div id="appEleven" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART ELEVEN</h1>
+			<div class="container">
+				<img :src="imgSrcEleven" :title="imgTitleEleven">
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP TWELVE
+/////////////////-->
+		
+		<div id="appTwelve" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART TWELVE</h1>
+				<h3>USING THE VUE.JS EXTENSION</h3>
+			<div class="container">
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP THIRTEEN
+/////////////////-->
+		
+		<div id="appThirteen" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART THIRTEEN</h1>
+			<div class="card md-t5">
+				<h2 class="card-header">Near-Earth Objects</h2>
+<!--			ADDED TABLE TO DISPLAY DATA-->
+				<table class="table">
+<!--				HEADER ROW (TABLE HEADER)-->
+					<thead class="thead-light">
+						<th>Name</th>
+						<th>Close Approach Date</th>
+					</thead>
+<!--				BECAUSE THE TABLES HAVE TO WAIT FOR DATA ITS A GOOD IDEA TO ADD "v-cloak" TO THE TBODY (TABLE BODY)-->
+					<tbody>
+<!--					TABLE ROW-->
+<!--					1. LOOPING THROUGH ARRAY TO GENERATE TABLE ROWS USE "v-for" ATTRIBUTE-->
+<!--					2. CHOOSE VARIABLE NAME FOR EACH ASTEROID WHEN LOOPING-->
+<!--					3. "a" IN THE ASTEROIDS ARRAY-->
+<!--					4. "a" IS A NAME FOR THE LOOPING VARIABLE-->
+<!--					"a in asteroids" PUTTING THE "in" THERE MAKES A LIST OF ALL THE OBJECTS IN THE ARRAY "asteroids"-->
+<!--					PUTTING "a" THERE IS BASICALLY INDEX AND REPRESENTS EACH ONE OF THE OBJECTS-->
+						<tr v-for="a in asteroids">
+<!--						TABLE CELL-->
+<!--						"a" THE ARRAY VARIABLE, "name" OF EACH OBJECTS; FROM "ROOT" IN VUE.JS EXTENSION-->
+<!--						"{{a.name}}" DISPLAYS EACH OBJECT NAME-->
+							<td>{{a.name}}</td>
+<!--						1. LONG VERSION "a.close_approach_data.length > 0 ?" (CHECKS FOR THE LENGTH OF IT BEING GREATER THAN 0)-->
+<!--						2. WHEN NAME IS TOO LONG DO THE NEXT STEP-->
+<!--						3. MOVING INTO A METHOD-->
+<!--						4. CREATING A NAME (getCloseApproachData) FOR "close_approach_data"-->
+<!--						PASS "a" TO THE NAME SO THE METHOD CAN EXAMINE THE DATA IN THE "asteroids"-->
+							<td>{{getCloseApproachData(a)}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP FOURTEEN
+/////////////////-->
+		
+		<div id="appFourteen" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART FOURTEEN</h1>
+			<div class="card md-t5">
+				<h2 class="card-header">Near-Earth Objects</h2>
+				<table class="table">
+					<thead class="thead-light">
+<!--					ADDED NUMBERING HEADER-->
+						<th>#</th>
+						<th>Name</th>
+						<th>Close Approach Date</th>
+<!--					ADDED MISS DISTANCE HEADER-->
+						<th>Miss Distance</th>
+					</thead>
+					<tbody>
+<!--					ADD NUMBERING FOR DISPLAYED DATA-->
+<!--					CHANGE "v-for" ADDING BRACKETS AND ", index" TO FIND THE INDEX OF EACH OBJECT-->
+						<tr v-for="(b, index) in asteroids">
+<!--						ADDED "<td>" TO DISPLAY THE NUMBERING AND ADD 1 BECAUSE IT DEFAULTS TO START AT 0-->
+							<td>{{index + 1}}</td>
+							<td>{{b.name}}</td>
+							<td>{{getCloseApproachDataFourteen(b)}}</td>
+							<td>
+<!--							ADDED AN UNORDERED LIST-->
+<!--							ADDED "v-if='b.close_approach_data.length > 0'" TO "ul"
+<!--							SO THAT IF "close_approach_data" DOESN'T HAVE ANY DATA IT DOESN'T RUN THE "li" TAG-->
+								<ul v-if="b.close_approach_data.length > 0">
+<!--								REPEAT THE "li" ELEMENT USING "v-for"-->
+<!--								IF JUST WANT THE NUMBERS GET RID OF "()" AND "key"-->
+<!--								IF WANT WITH NAMES ADD "key" SO YOU GET VALUE AND KEY-->
+<!--								GET VALUE OF "close_approach_data" AND "miss_distance"-->
+									<li v-for="(value, key, index) in b.close_approach_data[0].miss_distance">
+									{{key}}: {{value}}
+									</li>
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP FIFTEEN
+/////////////////-->
+		
+		<div id="appFifteen" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART FIFTEEN</h1>
+			<div class="card md-t5">
+				<h2 class="card-header">Near-Earth Objects</h2>
+				<table class="table">
+					<thead class="thead-light">
+						<th>#</th>
+						<th>Name</th>
+						<th>Close Approach Date</th>
+						<th>Miss Distance</th>
+<!--					ADD TITLE FOR REMOVE BUTTON-->
+						<th>Remove</th>
+					</thead>
+					<tbody>
+<!--					1. FOR THE RERENDERING OF THE LIST WHEN DATA CHANGES/GETS REMOVED (MAKES LESS CHOPPY)-->
+<!--					2. ADD "key" ATTRIBUTE ON THE ELEMENT WITH "v-for"-->
+<!--					3. "key" HELPS UPDATE THE LIST IN PLACE INSTEAD OF RERENDERING THE ENTIRE LIST-->
+<!--					4. PUT "c.neo_reference_id" BECAUSE EACH ARRAY ITEM HAS A DISTINCTIVE NEO REFERENCE ID-->
+<!--					5. "neo_reference_id" IS FROM THE NASA DATA AND THE VUE.JS EXTENSION STUFF-->
+<!--					6. THIS IS GOOD FOR LARGE AMOUNTS OF DATA-->
+<!--					AND REMEBER THAT ":" IS ADDED TO BE A SHORT VERSION OF "v-bind" AND IT'S TO ALLOW VUE.JS TO CHANGE THE USE OF AN STANDARD HTML ATTR-->
+						<tr v-for="(c, index) in asteroids" :key="c.neo_reference_id">
+							<td>{{index + 1}}</td>
+							<td>{{c.name}}</td>
+							<td>{{getCloseApproachDataFifteen(c)}}</td>
+							<td>
+								<ul v-if="c.close_approach_data.length > 0">
+									<li v-for="(value, key, index) in c.close_approach_data[0].miss_distance">
+									{{key}}: {{value}}
+									</li>
+								</ul>
+							</td>
+<!--						ADD BUTTON TAG INSIDE NEW TABLE CELL-->
+							<td>
+<!--							ADD "(index)" TO GO THROUGH THE ARRAY-->
+<!--							WHEN CLICKED RUNS A "remove" FUNCTION-->
+<!--							REMEMBER SHORT FORM FOR "v-on" is "@" INFRONT OF ATTR-->
+								<button @click="removeFifteen(index)" class="btn btn-warning">Remove</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP SIXTEEN  DOESN'T WORK LINK IS WEIRD
+/////////////////-->
+		
+<!--
+		<div id="appSixteen" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART SIXTEEN</h1>
+			<div class="card md-t5">
+				<h2 class="card-header">Near-Earth Objects</h2>
+-->
+<!--			//ADD CLASS OF "m-3" TO ADD MARGIN-->
+<!--			//ADD "v-cloak" TO STOP IT FROM FLASHING ON WHEN REFRESHING-->
+<!--			ADD "v-if" SO IF "asteroids" LENGTH IS GREATER THAN 0 IT WILL DISPLAY THIS "p" TAG-->
+<!--			HAD "v-if='asteroids.length > 0'" BUT REPLACED WITH A COMPUTED PROPERTY DEFINED IN JS-->
+<!--				<div class="m-3" v-cloak v-if="numAsteroids > 0">-->
+<!--				SHOWS THE LENGTH OF THE "asteroids" ARRAY-->
+<!--				HAD "{{asteroids.length}}" BUT REPLACED WITH A COMPUTED PROPERTY DEFINED IN JS-->
+<!--
+					<p>showing {{numAsteroids}} items</p>
+					<p>{{closestObject}} has the shortest miss distance.</p>
+				</div>
+				<table class="table">
+					<thead class="thead-light">
+						<th>#</th>
+						<th>Name</th>
+						<th>Close Approach Date</th>
+						<th>Miss Distance</th>
+						<th>Remove</th>
+					</thead>
+					<tbody>
+						<tr v-for="(d, index) in asteroids" :key="d.neo_reference_id">
+							<td>{{index + 1}}</td>
+							<td>{{d.name}}</td>
+							<td>{{getCloseApproachDataSixteen(d)}}</td>
+							<td>
+								<ul v-if="d.close_approach_data.length > 0">
+									<li v-for="(value, key, index) in d.close_approach_data[0].miss_distance">
+									{{key}}: {{value}}
+									</li>
+								</ul>
+							</td>
+-->
+<!--						ADD BUTTON TAG INSIDE NEW TABLE CELL-->
+<!--							<td>-->
+<!--							ADD "(index)" TO GO THROUGH THE ARRAY-->
+<!--							WHEN CLICKED RUNS A "remove" FUNCTION-->
+<!--							REMEMBER SHORT FORM FOR "v-on" is "@" INFRONT OF ATTR-->
+<!--
+								<button @click="removeSixteen(index)" class="btn btn-warning">Remove</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+-->
+
+<!--/////////////
+HTML STEP SEVENTEEN
+/////////////////-->
+		
+		<div id="appSeventeen" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART SEVENTEEN</h1>
+			<h3>PART SIXTEEN DIDN'T WORK CAUSE THE LINK WAS MESSED UP</h3>
+			<div class="card md-t5">
+				<h2 class="card-header">Near-Earth Objects</h2>
+<!--			//ADDED "table-striped"-->
+				<table class="table table-striped">
+					<thead class="thead-light">
+						<th>#</th>
+						<th>Name</th>
+						<th>Close Approach Date</th>
+						<th>Miss Distance</th>
+						<th>Remove</th>
+					</thead>
+					<tbody>
+<!--					//ADDED ':style="{'border': 'solid 3px red'}"'-->
+<!--					//WHEN STYLING THE NAME HAS TO BE A STRING INSIDE QUOTES OR IN CAMELCASE OUTSIDE OF QUOTES-->
+<!--					//ONLY WANT STYLES ON CERTAIN ROWS SO REPLACE WHATS IN ":style=''" WITH "getRowStyle(e)"-->
+<!--					//ITS FINE TO ADD A STYLE ATTRIBUTE ALONGSIDE THE DYNAMIC ONE-->
+<!--					HAVING THE ":style" overrides the plain "style" attribute-->
+<!--					//1. ADD "[]" AROUND "getRowStyle(e)" AND ADD INSIDE IT ", {color: 'blue'}"-->
+<!--					//2. THIS MAKES IT AN ARRAY-->
+						<tr v-for="(e, index) in asteroids" :key="e.neo_reference_id" :style="[getRowStyle(e), {color: 'green'}]" style="color: red">
+							<td>{{index + 1}}</td>
+							<td>{{e.name}}</td>
+							<td>{{getCloseApproachDataSeventeen(e)}}</td>
+							<td>
+								<ul v-if="e.close_approach_data.length> 0">
+									<li v-for="(value, key, index) in e.close_approach_data[0].miss_distance">
+									{{key}}: {{value}}
+									</li>
+								</ul>
+							</td>
+							<td>
+								<button @click="removeSeventeen(index)" class="btn btn-warning">Remove</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP EIGHTEEN
+/////////////////-->
+		
+		<div id="appEighteen" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART EIGHTEEN</h1>
+			<div class="card md-t5">
+				<h2 class="card-header">Near-Earth Objects</h2>
+<!--			//ADDED "table-striped"-->
+<!--			//CAN LIST ALL CLASS NAMES TO APPLY TO A GIVEN ELEMENT IN AN ARRAY-->
+<!--			//ADD DYNAMIC CLASS ATTRIBUTE ":class=''" AND ADD BOOTSTRAP CLASSES TO MAKE LOOK BETTTER (:class="['table-dark', 'table-border']")-->
+<!--			//CAN MIX IT WITH THE OBJECTS SYNTAX-->
+<!--			//ADD "{}" AROUND "table-dark" AND ADD INSIDE WITH IT ": false"-->
+				<table class="table table-striped" :class="[{'table-dark': false}, 'table-bordered']">
+					<thead class="thead-light">
+						<th>#</th>
+						<th>Name</th>
+						<th>Close Approach Date</th>
+						<th>Miss Distance</th>
+						<th>Remove</th>
+					</thead>
+					<tbody>
+<!--					GET RID OF STYLING ATTRIBUTES, GONNA DO IT IN "style" TAG-->
+<!--					1. //ADD ":class='{highlight: true}'" (OR FALSE IF YOU DONT WANT TO CLASS TO BE ACTIVE)
+<!--					2. //ADD IT TO APPLY THE CLASS TO EVERY ROW-->
+<!--					3. REPLACE TRUE/FALSE WITH "isMissingData(e)", THIS CALLS A METHOD TO DO THE STYLING-->
+<!--					1. BOOLEAN VALUES HAS ONE OF TWO POSSIBLE VALUES-->
+<!--					//2. YOU CAN ADD MORE KEYS TO THIS OBJECT WITH BOOLEAN VALUES IN ORDER TO ADD OR TOGGLE MORE CLASSES-->
+<!--					//3. ADD 'shadow-sm': true-->
+						<tr v-for="(e, index) in asteroids" :key="e.neo_reference_id" :class="{highlight: isMissingData(e), 'shadow-sm': true}">
+							<td>{{index + 1}}</td>
+							<td>{{e.name}}</td>
+							<td>{{getCloseApproachDataEighteen(e)}}</td>
+							<td>
+								<ul v-if="e.close_approach_data.length> 0">
+									<li v-for="(value, key, index) in e.close_approach_data[0].miss_distance">
+									{{key}}: {{value}}
+									</li>
+								</ul>
+							</td>
+							<td>
+								<button @click="removeEighteen(index)" class="btn btn-warning">Remove</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP NINETEEN
+/////////////////-->
+		
+<!--WENT TO https://vuejs.org/v2/guide/transitions.html FOR THIS STEP-->
+		
+		<div id="appNineteen" class="col" style="padding: 50px; background: pink;">
+			<h1 style="padding-bottom:30px;">PART NINETEEN</h1>
+			<div class="card md-t5">
+				<h2 class="card-header">Near-Earth Objects</h2>
+<!--			CREATE A TRANSITION FOR THE SHOWING/HIDING-->
+<!--			GIVE TRANSITION ELEMENT A "name" ATTRIBUTE IN PLACE OF THE V FOR THE CLASS NAMES-->
+<!--			WRAP THIS AROUND THE SUMMARY TEXT-->
+<!--			USING THE NAME ATTRIBUTE YOU CAN STYLE IT IN THE CSS-->
+				<transition name="shooting-star">
+	<!--			THIS DIV WOULD HAVE BEEN HERE BEFORE ON STEP SIXTEEN BUT DIDN'T WORK-->
+	<!--			BECAUSE IT DIDN'T WORK, HAVE TO GET RID OF "numAsteroids > 0"-->
+	<!--			WOULD HAVE BEEN 'v-if="numAsteroids > 0 && showSummary"'-->
+	<!--			ADDED "showSummary"-->
+					<div class="m-3" v-cloak v-if="showSummary">
+						<p>Just filler text cause sixteen didnt work</p>
+					</div>
+				</transition>
+<!--			ADDED THIS "div"-->
+				<div class="m-3">
+<!--				WHEN THIS IS CLICKED IT SHOWS/HIDES THE SUMMARY-->
+					<a href="#appNineteen" @click="showSummary = !showSummary">Show/hide summary</a>
+				</div>
+				<table class="table table-striped" :class="[{'table-dark': false}, 'table-bordered']">
+					<thead class="thead-light">
+						<th>#</th>
+						<th>Name</th>
+						<th>Close Approach Date</th>
+						<th>Miss Distance</th>
+						<th>Remove</th>
+					</thead>
+<!--				GOT RID OF "tbody" AND REPLACED IT WITH "tansition-group"-->
+<!--				1. "transition-group" WILL ACTUALLY BE RENDERED UNLIKE "transition"-->
+<!--				2. RENDERED AS A SPAN ELEMENT-->
+<!--				3. DONT WANT A SPAN ELEMENT TO BE AN IMEDIATE CHILD OF "tbody"-->
+<!--				4. "transition-group" ELEMENT SUPPORTS A TAG ATTRIBUTE TO OVERRIDE THAT (ADD "tag='tbody'")-->
+<!--				ADD "name='neo-list'" TO ADD TRANSITION THROUGH CSS-->
+					<transition-group tag="tbody" name="neo-list" v-cloak>
+						<tr v-for="(f, index) in asteroids" :key="f.neo_reference_id" :class="{highlight: isMissingData(f), 'shadow-sm': true}">
+							<td>{{index + 1}}</td>
+							<td>{{f.name}}</td>
+							<td>{{getCloseApproachDataNineteen(f)}}</td>
+							<td>
+								<ul v-if="f.close_approach_data.length> 0">
+									<li v-for="(value, key, index) in f.close_approach_data[0].miss_distance">
+									{{key}}: {{value}}
+									</li>
+								</ul>
+							</td>
+							<td>
+								<button @click="removeNineteen(index)" class="btn btn-warning">Remove</button>
+							</td>
+						</tr>
+					</transition-group>
+				</table>
+			</div>
+		</div>
+
+<!--/////////////
+HTML STEP 20
+/////////////////-->
+		
+		
+		<div id="app20" class="col" style="padding: 50px; background: red;">
+			<h1 style="padding-bottom:30px;">PART 20</h1>
+			<div class="card md-t5">
+<!--			WANNA ANIMATE THE WORD AND GO BACK INTO PLACE-->
+<!--			ISOLATE WORD OBJECT AND PUT IN "span" OR "div"-->
+				<h2 class="card-header">
+<!--				LEAVE "Near-Earth" OUTSIDE TRANSITION OR IT WONT SHOW AND SCREW IT UP-->
+					Near-Earth
+<!--				ADD "transition" TAG-->
+<!--				WANT TO ANIMATE WHEN PAGE LOADS BECAUSE NOT MUCH DATA ENTERING OR LEAVING-->
+<!--				ADD "appear" ATTRIBUTE TO TRIGGER ANIMATION-->
+					<transition name="spin" appear>
+	<!--				ADD "display: inline-block" SO IT STAYS INLINE BUT ITS POSITION CAN BE MANIPULATED LIKE A BLOCK ELEMENT-->
+						<span style="display: inline-block">Objects</span>
+					</transition>
+				</h2>
+				<transition name="shooting-star">
+					<div class="m-3" v-cloak v-if="showSummary">
+						<p>Just filler text cause sixteen didnt work</p>
+					</div>
+				</transition>
+				<div class="m-3">
+					<a href="#app20" @click="showSummary = !showSummary">Show/hide summary</a>
+				</div>
+				<table class="table table-striped" :class="[{'table-dark': false}, 'table-bordered']">
+					<thead class="thead-light">
+						<th>#</th>
+						<th>Name</th>
+						<th>Close Approach Date</th>
+						<th>Miss Distance</th>
+						<th>Remove</th>
+					</thead>
+<!--				1. PUT "tbody" INSTEAD OF "<transition-group tag="tbody" name="neo-list" v-cloak>"-->
+<!--				2. "tbody" ABOVE THE TABLE, DO NOT WANT.-->
+<!--				3. BROWSERS ARE PICKY ABOUT CERTAIN ELEMENTS AND WHAT CHILD ELEMENTS THEY'RE ALLOWED TO HAVE-->
+<!--				4. ADD 'is="transition-group"'THIS TELLS VUE.JS THAT WE WANT IT TOBE TREATED AS A "transition-group" INSTEAD OF "tbody"-->
+					<tbody is="transition-group" name="neo-list" v-cloak>
+						<tr v-for="(g, index) in asteroids" :key="g.neo_reference_id" :class="{highlight: isMissingData(g), 'shadow-sm': true}">
+							<td>{{index + 1}}</td>
+							<td>{{g.name}}</td>
+							<td>{{getCloseApproachData20(g)}}</td>
+							<td>
+								<ul v-if="g.close_approach_data.length> 0">
+									<li v-for="(value, key, index) in g.close_approach_data[0].miss_distance">
+									{{key}}: {{value}}
+									</li>
+								</ul>
+							</td>
+							<td>
+								<button @click="remove20(index)" class="btn btn-warning">Remove</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!--LINK TO JQUERY.JS-->
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+		
+		<!--LINK TO AXIOS.JS-->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		
+		<!--LINK TO VUE.JS-->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+	
+		<!--JS SCRIPT STEPS-->
+		<script>
+			
+//JS STEP ONE
+///////////////
+
+			//USING REGULAR JAVASCRIPT
+			//document.getElementById('greeting').innerText = 'Hello from vanilla JavaScript!';
+
+			//JQUERY WAY
+			//$('#greeting').text('Hello from jQuery!');
+
+			//VUE WAY
+			//THIS IS CALLED A VUE INSTANCE
+			var vmOne = new Vue({
+				//TARGETTING THE HTML ELEMENT
+				el: '#app',
+				//OBJECT THAT CONTAINS OUR VARIABLES
+				data: {
+					greeting: 'Hello from Vue!'
+				}
+			});
+
+///////////////
+//JS STEP TWO
+///////////////
+
+			//DOES NOTHING JUST TO SHOW WHAT TO HAVE TO GO INTO STEP THREE
+			var vmTwo = new Vue({
+				el: '#appTwo',
+				data: { 
+					
+				}
+			});
+
+///////////////
+//JS STEP THREE
+///////////////
+
+			var vmThree = new Vue({
+				el: '#appThree',
+				data: { 
+					emailThree: 'example3@email.com'
+				}
+			});
+
+///////////////
+//JS STEP FOUR
+///////////////
+
+			var vmFour = new Vue({
+				el: '#appFour',
+				data: { 
+					emailFour: 'example4@email.com'
+				}
+			});
+
+///////////////
+//JS STEP FIVE
+///////////////
+
+			var vmFive = new Vue({
+				el: '#appFive',
+				data: { 
+					emailFive: 'example5@email.com'
+				},
+				//CREATING METHODS OBJECT
+				methods: {
+					//DEFINING A FUNCTION CALLED PROCESS
+					process: function(event) {
+						//PREVENTS FROM REFRESHING PAGE WHEN CLICKED
+						event.preventDefault();
+						//INSIDE A METHOD IF YOU WANNA REFER TO ANOTHER METHOD OR PROPERTY YOU WANT TO USE THE "this" KEYWORD OR "vmFive"
+						alert('Submitted ' + this.emailFive);
+					}
+				}
+			});
+
+///////////////
+//JS STEP SIX
+///////////////
+
+			var vmSix = new Vue({
+				el: '#appSix',
+				data: { 
+					emailSix: 'example6@email.com'
+				},
+				methods: {
+					process: function() {
+						//DELETED THE EVENT BECAUSE ".process" REPLACES IT
+						alert('Submitted ' + this.emailSix);
+					}
+				}
+			});
+
+///////////////
+//JS STEP SEVEN
+///////////////
+
+			var vmSeven = new Vue({
+				el: '#appSeven',
+				data: { 
+					emailSeven: 'example7@email.com',
+					//USE THIS WITH V-IF DIRECTIVE ON THE FORM ELEMENT
+					submitted: false
+				},
+				methods: {
+					process: function() {
+						this.submitted = true;
+					}
+				}
+			});
+
+///////////////
+//JS STEP EIGHT
+///////////////
+
+			var vmEight = new Vue({
+				el: '#appEight',
+				data: { 
+					emailEight: 'example8@email.com',
+					submitted: false
+				},
+				methods: {
+					process: function() {
+						this.submitted = true;
+					}
+				}
+			});
+
+///////////////
+//JS STEP NINE
+///////////////
+
+			var vmNine = new Vue({
+				el: '#appNine',
+				data: {
+					emailNine: 'example9@email.com',
+					submitted: false
+				},
+				methods: {
+					process: function() {
+						this.submitted = true;
+					}
+				}
+			});
+
+///////////////
+//JS STEP TEN
+///////////////
+			
+			//DEFINING THE APIKEY AND URL AS VARIABLES
+			//EMAIL WAS EXAMPLE@EXAMPLE.COM
+			var apiKeyTen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX'
+			var urlTen = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKeyTen;
+
+			var vmTen = new Vue({
+				el: '#appTen',
+				data: {
+					//CONNECTING TO THE HTML IMG ATTR's
+					imgSrcTen: '',
+					imgTitleTen: ''
+				}
+			});
+			
+			axios.get(urlTen)
+				.then(function (res) {
+					
+					//ASSIGNS THESE WITH THE URL/TITLE INFORMATION
+					vmTen.imgSrcTen = res.data.url;
+					vmTen.imgTitleTen = res.data.title;
+				
+					//GETS THE URL AND CHECK IN CONSOLE TO SEE IT
+//					console.clear();
+//					console.log(res);
+				});
+
+///////////////
+//JS STEP ELEVEN
+///////////////
+
+			var vmEleven = new Vue({
+				el: '#appEleven',
+				data: {
+					//CONNECTING TO THE HTML IMG ATTR's
+					imgSrcEleven: '',
+					imgTitleEleven: ''
+				},
+				//THIS RUNS AS SOON AS THE VIEW INSTANCE IS CREATED INSTEAD OF PUTTING "vmEleven.fetchApod();" UNDER THE FUNCTION
+				created: function () {
+					this.fetchApod();
+				},
+				methods: {
+					fetchApod: function () {
+						//MOVED THESE VARIABLES INSIDE THIS FUNCTION
+						var apiKeyEleven = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlEleven = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKeyEleven;
+					
+						//REQUEST TO THE API URL
+						axios.get(urlEleven)
+							.then(function (res) {
+
+								//ASSIGNS THESE WITH THE URL/TITLE INFORMATION
+								vmEleven.imgSrcEleven = res.data.url;
+								vmEleven.imgTitleEleven = res.data.title;
+
+								//GETS THE URL AND CHECK IN CONSOLE TO SEE IT
+			//					console.clear();
+			//					console.log(res);
+							});
+					}
+				}
+			});
+
+///////////////
+//JS STEP TWELVE
+///////////////
+
+			var vmTwelve = new Vue({
+				el: '#appTwelve',
+				data: {
+					//DELETED CODE IN HERE AND ADDED NEW CODE
+					//CREATE ASTEROIDS ARRAY
+					asteroids: []
+				},
+				created: function () {
+					//CHANGED TO ASTEROIDS INSTEAD OF APOD
+					this.fetchAsteroids();
+				},
+				methods: {
+					//CHANGED TO ASTEROIDS INSTEAD OF APOD
+					fetchAsteroids: function () {
+						var apiKeyTwelve = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlTwelve = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeyTwelve;
+					
+						axios.get(urlTwelve)
+							.then(function (res) {
+							
+								//DELETED CODE IN HERE AND ADDED NEW CODE
+								//SHOWING ONLY 10 TOTAL IN THE VUE.JS BROWSER EXTENSION
+								vmTwelve.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					}
+				}
+			});
+
+///////////////
+//JS STEP THIRTEEN
+///////////////
+			
+			var vmThirteen = new Vue({
+				el: '#appThirteen',
+				data: {
+					asteroids: []
+				},
+				created: function () {
+					this.fetchAsteroids();
+				},
+				methods: {
+					fetchAsteroids: function () {
+						var apiKeyThirteen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlThirteen = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeyThirteen;
+					
+						axios.get(urlThirteen)
+							.then(function (res) {
+								vmThirteen.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					},
+					//MAKING THE METHOD TO FIND LENGTH OF "close_approach_data"
+					getCloseApproachData: function (a) {
+						//IF THERE IS SOME DATA GRABS THE FIRST ITEM AND RETURN THE CLOSE APPROACH DATE
+						//DONT MIX UP "close_approach_date" and "close_approach_data"
+						if (a.close_approach_data.length > 0) {
+							//The return statement stops the execution of a function and returns a value from that function.
+							return a.close_approach_data[0].close_approach_date;
+						}
+						//OTHERWISE IT WILL RETURN AS NOT AVAILABLE
+						return 'N/A'
+					}
+				}
+			});
+
+///////////////
+//JS STEP FOURTEEN
+///////////////
+			
+			var vmFourteen = new Vue({
+				el: '#appFourteen',
+				data: {
+					asteroids: []
+				},
+				created: function () {
+					this.fetchAsteroids();
+				},
+				methods: {
+					fetchAsteroids: function () {
+						var apiKeyFourteen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlFourteen = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeyFourteen;
+					
+						axios.get(urlFourteen)
+							.then(function (res) {
+								vmFourteen.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					},
+					getCloseApproachDataFourteen: function (b) {
+						if (b.close_approach_data.length > 0) {
+							return b.close_approach_data[0].close_approach_date;
+						}
+						return 'N/A'
+					}
+				}
+			});
+
+///////////////
+//JS STEP FIFTEEN
+///////////////
+			
+			var vmFifteen = new Vue({
+				el: '#appFifteen',
+				data: {
+					asteroids: []
+				},
+				created: function () {
+					this.fetchAsteroids();
+				},
+				methods: {
+					fetchAsteroids: function () {
+						var apiKeyFifteen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlFifteen = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeyFifteen;
+					
+						axios.get(urlFifteen)
+							.then(function (res) {
+								vmFifteen.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					},
+					getCloseApproachDataFifteen: function (c) {
+						if (c.close_approach_data.length > 0) {
+							return c.close_approach_data[0].close_approach_date;
+						}
+						return 'N/A'
+					},
+					//CREATING "remove" METHOD THAT'LL BE CALLED FROM THE HTML
+					//INDEX OF THE ITEM TO BE REMOVED
+					removeFifteen: function (index) {
+						//PUT "this.astroids" TO GET THE ARRAY
+						//REMOVE ITEM USING THE "splice" METHOD
+						//ADD "(index, 1)" AFTER SPLICE TO TELL IT TO DELETE ONLY 1 OF THE ITEMS WITH THAT INDEX
+						this.asteroids.splice(index, 1);
+					}
+				}
+			});
+
+///////////////
+//JS STEP SIXTEEN  DOESN'T WORK PROPERLY BECAUSE THE LINK IS WEIRD
+///////////////
+//			
+//			var vmSixteen = new Vue({
+//				el: '#appSixteen',
+//				data: {
+//					asteroids: []
+//				},
+//				//ADD NEW KEY "computed"
+//				//"computed" PROPERTIES USE FUNCTIONS THAT RETURN A VALUE THATS CACHED UNTIL ANY VALUE THAT IT DEPENDS ON ARE UPDATED THEN IT CAN BE COMPUTED
+//				computed: {
+//					//CREATING "numAsteroids" TO BE CALLED IN THE HTML
+//					numAsteroids: function () {
+//						return this.asteroids.length;
+//					},
+//					//CREATING "closestObject" TO BE CALLED IN THE HTML
+//					closestObject: function () {
+//						//MAKES EACH ITEM AS A PERAMETER NAMED "neo"
+//						//"filter" ON "asteroids" THIS TAKES A FUNCTION THAT ACCEPTS EACH ITEM AS A PERAMETER
+//						//RETURN TRUE FOR ITEMS WE WANNA KEEP AND FALSE FOR ITEMS WE WANNA FILTER OUT
+//						var neosHavingData = this.asteroids.filter(function (neo) {
+//							return neo.close_approach_data.length > 0;
+//						});
+//						//SIMPLE ARRAY HAS ONLY TWO PROPERTIES FOR EACH ITEM
+//						var simpleNeos = neosHavingData.map(function (neo) {
+//							//RETURN THE SIMPLER FORM OF EACH ITEM, OBJECT WITH A "name" PROPERTY AND DISTANCE IN "miles" PROPERTY
+//							//"neo.close_approach_data[0]" FIRST ITEM
+//							//"miss_distance" IN "miles"
+//							return {name: neo.name, miles: neo.close_approach_data[0].miss_distance.miles};
+//						});
+//						//CALLING "sort" ON "simpleNeos"
+//						//THIS ONE TAKES A FUNCTION THAT TAKES A PAIR OF ITEMS AND SORT
+//						var sortedNeos = simpleNeos.sort(function (a, b) {
+//							//IF "a" IS LESS THAN "b" RETURN A NEGATIVE VALUE
+//							//IF "a" IS GREATER THAN "b" RETURN A POSITIVE VALUE
+//							//IF "a" AND "b" ARE EQUAL TO EACHOTHER RETURN 0
+//							return a.miles - b.miles;
+//						});
+//						//RETURN "sortedNeos", THE FIRST ITEM, AND ITS NAME
+//						return sortedNeos[0].name;
+//					}
+//				},
+//				created: function () {
+//					this.fetchAsteroids();
+//				},
+//				methods: {
+//					fetchAsteroids: function () {
+//						var apiKeySixteen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+//						var urlSixteen = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeySixteen;
+//					
+//						axios.get(urlSixteen)
+//							.then(function (res) {
+//								vmSixteen.asteroids = res.data.near_earth_objects.slice(0, 10);
+//							});
+//					},
+//					getCloseApproachDataSixteen: function (d) {
+//						if (d.close_approach_data.length > 0) {
+//							return d.close_approach_data[0].close_approach_date;
+//						}
+//						return 'N/A'
+//					},
+//					removeSixteen: function (index) {
+//						this.asteroids.splice(index, 1);
+//					}
+//				}
+//			});
+
+///////////////
+//JS STEP SEVENTEEN
+///////////////
+			
+			var vmSeventeen = new Vue({
+				el: '#appSeventeen',
+				data: {
+					asteroids: []
+				},
+				created: function () {
+					this.fetchAsteroids();
+				},
+				methods: {
+					fetchAsteroids: function () {
+						var apiKeySeventeen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlSeventeen = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeySeventeen;
+					
+						axios.get(urlSeventeen)
+							.then(function (res) {
+								vmSeventeen.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					},
+					getCloseApproachDataSeventeen: function (e) {
+						if (e.close_approach_data.length > 0) {
+							return e.close_approach_data[0].close_approach_date;
+						}
+						return 'N/A'
+					},
+					removeSeventeen: function (index) {
+						this.asteroids.splice(index, 1);
+					},
+					//CREATING "getRowStyle" METHOD THAT'LL BE CALLED FROM THE HTML
+					getRowStyle: function (e) {
+						//ONLY STYLES THE BOXES IF THE ROW HAS NO DATA
+						if (e.close_approach_data.length == 0) {
+							//The return statement stops the execution of a function and returns a value from that function.
+							return {
+								border: 'solid 5px blue',
+								color: 'blue'
+							}
+						}
+					}
+				}
+			});
+
+///////////////
+//JS STEP EIGHTEEN
+///////////////
+			
+			var vmEighteen = new Vue({
+				el: '#appEighteen',
+				data: {
+					asteroids: []
+				},
+				created: function () {
+					this.fetchAsteroids();
+				},
+				methods: {
+					fetchAsteroids: function () {
+						var apiKeyEighteen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlEighteen = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeyEighteen;
+					
+						axios.get(urlEighteen)
+							.then(function (res) {
+								vmEighteen.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					},
+					getCloseApproachDataEighteen: function (e) {
+						if (e.close_approach_data.length > 0) {
+							return e.close_approach_data[0].close_approach_date;
+						}
+						return 'N/A'
+					},
+					removeEighteen: function (index) {
+						this.asteroids.splice(index, 1);
+					},
+					//CREATING "getRowStyle" METHOD THAT'LL BE CALLED FROM THE HTML
+					getRowStyle: function (e) {
+						//ONLY STYLES THE BOXES IF THE ROW HAS NO DATA
+						if (e.close_approach_data.length == 0) {
+							//The return statement stops the execution of a function and returns a value from that function.
+							return {
+								border: 'solid 5px blue',
+								color: 'blue'
+							}
+						}
+					},
+					//CREATING METHOD THAT GETS CALLED IN THE HTML FOR STYLING
+					isMissingData: function(e) {
+						//RETURN WHETHER OR NOT THE LENGTH OF THE "close_approach_data" IS EQUAL TO 0
+						return e.close_approach_data.length == 0;
+					}
+				}
+			});
+
+///////////////
+//JS STEP NINETEEN
+///////////////
+			
+			var vmNineteen = new Vue({
+				el: '#appNineteen',
+				data: {
+					asteroids: [],
+					//ADDED DATA PROPERTY "showSummary"
+            		showSummary: true
+				},
+				created: function () {
+					this.fetchAsteroids();
+				},
+				methods: {
+					fetchAsteroids: function () {
+						var apiKeyNineteen = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var urlNineteen = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKeyNineteen;
+					
+						axios.get(urlNineteen)
+							.then(function (res) {
+								vmNineteen.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					},
+					getCloseApproachDataNineteen: function (f) {
+						if (f.close_approach_data.length > 0) {
+							return f.close_approach_data[0].close_approach_date;
+						}
+						return 'N/A'
+					},
+					removeNineteen: function (index) {
+						this.asteroids.splice(index, 1);
+					},
+					getRowStyle: function (f) {
+						if (f.close_approach_data.length == 0) {
+							return {
+								border: 'solid 5px blue',
+								color: 'blue'
+							}
+						}
+					},
+					isMissingData: function(f) {
+						return f.close_approach_data.length == 0;
+					}
+				}
+			});
+
+///////////////
+//JS STEP 20
+///////////////
+			
+			var vm20 = new Vue({
+				el: '#app20',
+				data: {
+					asteroids: [],
+            		showSummary: true
+				},
+				created: function () {
+					this.fetchAsteroids();
+				},
+				methods: {
+					fetchAsteroids: function () {
+						var apiKey20 = 'KdVXB7SrwwSeIJ6pndjc6EF2oRykc5c8Sb7s5PHX';
+						var url20 = 'https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=' + apiKey20;
+					
+						axios.get(url20)
+							.then(function (res) {
+								vm20.asteroids = res.data.near_earth_objects.slice(0, 10);
+							});
+					},
+					getCloseApproachData20: function (g) {
+						if (g.close_approach_data.length > 0) {
+							return g.close_approach_data[0].close_approach_date;
+						}
+						return 'N/A'
+					},
+					remove20: function (index) {
+						this.asteroids.splice(index, 1);
+					},
+					getRowStyle: function (g) {
+						if (g.close_approach_data.length == 0) {
+							return {
+								border: 'solid 5px blue',
+								color: 'blue'
+							}
+						}
+					},
+					isMissingData: function(g) {
+						return g.close_approach_data.length == 0;
+					}
+				}
+			});
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+
+TITLE:
+	
+	THIS FILE GOES THROUGH STEPS EXPLAINING HOW TO USE VUE AND ITS COMPONENTS
+
+LEGEND FOR COMMENTS:
+
+	// AT START: EXPLAINING CSS STYLING.
+	1. 2. ETC. : COMMENTS WITH MULTIPLE EXPLAINATIONS.
+
+-->
+
+<!--
+	
+RANDOM NOTES:
+
+- VUE COMPONENTS ARE BASICALLY CUSTOM ELEMENTS
+- NO EL PROPERTY FOR A SELECTOR
+- DATA CAN BE MADE AVAILABLE TO A COMPONENT THROUGH ATTRIBUTES CALLED PROPS
+- IF YOUR USING A BUILD TOOL OR MODULE BUNDLER LIKE BROWSERFY OR WEBPACK ETC. YOU CAN CREATE WHATS CALLED SINGLE FILE COMPONENTS THAT ARE STORED IN .VUE FILES WHICH LOOK SIMILAR TO HTML FILES
+- component lists rendered with v-for should have explicit keys.
+
+- WHY USE VUE? REUSABILITY, ENCAPSULATION, PORTABILITY, ORGANIZATION, READIBILITY
+
+-->
+	<head>
+
+<!--	LINK TO BOOTSTRAP (JUST TO MAKE THINGS LOOK BETTER)-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	</head>
+
+	<body>
+		<style>
+/*			USE SQUARE BRACKETS BECAUSE ITS AN ATTRIBUTE*/
+/*			CREATING A "v-cloak" ATTRIBUTE*/
+/*			1. "v-cloak" hides the element with css but then removed when view is initialized*/
+/*			2. "v-cloak" doesn't do anything on its own, have to add a css "display: none;" to it to work properly*/
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+<!--///////////
+HTML STEP 1
+////////////-->
+		
+<!--	DIV WITH THE ID OF "app1" THAT GETS USED FROM THE VUE JS STUFF-->
+		<div id="app1" class="col" style="padding: 50px; background: red;">
+			<h1>PART 1</h1>
+			<div class="container">
+<!--			ADD NEW COMPONENT-->
+<!--			DISPLAYS "msg"-->
+				<another-component></another-component>
+<!--			PUTTING CUSTOM ELEMENT INTO HTML INSIDE THE DIV WITH THE ID-->
+<!--			LOOPING THROUGH ARRAY TO GENERATE TABLE ROWS USE "v-for" ATTRIBUTE-->
+<!--			ADD "v-for" LETS YOU REPEAT THROUGH THE PROPERTIES OF AN OBJECT A 1000 TIMES-->
+				<my-component v-for="i in 1000"></my-component>
+			</div>
+		</div>
+		
+<!--///////////
+HTML STEP 2
+////////////-->
+		
+		<div id="app2"class="col" style="padding: 50px; background: pink;">
+			<h1>PART 2</h1>
+			<div class="container">
+<!--			EACH OF THESE "a-pod"'S ARE MAKING THERE OWN REQUEST TO THE NASA API WITHOUT CODE DUPLICATION-->
+				<a-pod></a-pod>
+<!--			GOES BACK TO WHAT WE DID IN THE OTHER VUE HTML STEPS WITH THE ASTEROIDS IMG-->
+<!--			REPLACE <img :src="imgSrc" :title="imgTitle"> WITH "a-pod"-->
+<!--			"a-pod" WILL BE A CUSTOM COMPONENT CREATED IN THE JS WITH A VUE INSTANCE-->
+<!--			ADDING A PROP CALLED "date" WHICH IS CREATED IN THE JS-->
+				<a-pod date="2018-08-07"></a-pod>
+			</div>
+		</div>
+		
+<!--///////////
+HTML STEP 3
+////////////-->
+		
+		<div id="app3"class="col" style="padding: 50px; background: red;">
+			<h1>PART 3</h1>
+			<div class="container">
+				<a-pod>
+<!--				ADD H3 FOR THE TITLE-->
+<!--				THESE NAMES ALLOW YOU TO USE "slot" AS AN ATTRIBUTE AND PUT THE NAME INSIDE THAT ATTRIBUTE TO BE CALLED AND DISPLAYED-->
+					<h3 slot="title">#1</h3>
+<!--				CAN MODIFY THE MARKUP BY SETTING A CHILD ELEMENT AND WRITING WHAT I WANT-->
+<!--				DO THIS IF YOU WOULD RATHER A DEFAULT CAPTION ON SOMETHING-->
+					<p slot="caption">HELLO RANDOM TEXT</p>
+				</a-pod>
+				<a-pod date="2018-08-06">
+<!--				ADD H3 FOR THE SECOND TITLE-->
+					<h3 slot="title">#2</h3>
+<!--				ADD P TAG FOR CAPTION-->
+<!--				INCORPORATE THE DATE BY PUTTING {{date}} IN THE P TAG-->
+<!--				PREVIOUS COMMENT DOESN'T WORK BECAUSE YOURE TRYING TO GET "date" FROM THE THE ROOT VUE INSTANCE WHICH ISN'T EVEN THERE-->
+<!--				SO INSTEAD WE JUST ADD A THING IN THE JS TEMPLATE-->
+<!--				AND THEN ADD 'slot-scope="pic"'-->
+<!--				ADD IN FRONT OF "date" IN THE P TAG ".pic" THIS ALLOWS THE THE "pic" TO GET THE "date"-->
+					<p slot="caption" slot-scope="pic">Heres the picture from {{pic.date}}</p>
+				</a-pod>
+			</div>
+		</div>
+		
+		<!--LINK TO JQUERY.JS-->
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+				
+<!--	LINK TO VUE.JS-->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+		
+<!--	LINK TO AXIOS.JS-->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+	
+		<!--JS SCRIPT STEPS-->
+		<script>
+			
+/*///////////////
+JS STEP 1
+///////////////*/
+			
+			//CREATE A LOCAL COMPONENT MAKE IT KNOWN TO A SINGLE VUE INSTANCE
+			//THIS IS JUST A PLAIN JAVASCRIPT OBJECT THATS NOT CONNECTED TO VUE
+			var anotherComponent = {
+				//GIVING IT DATA
+				//DATA OPTION FOR A COMPONENT MUST BE SPECIFIED WITH A FUNCTION THAT RETURNS AN OBJECT
+				data: function () {
+					//DISPLAYS MSG
+					return {
+						msg: 'Hello from another component'
+					}
+				},
+				//RUNS "msg" TO DISPLAY "msg"
+				template: '<h1>{{msg}}</h1>'
+			}
+			
+			//CREATING A COMPONENT NAMED "my-component"
+			//START WITH "Vue" TO CALL THE VUE STUFF
+			//".component" IS TO TELL IT TO CREATE A COMPONENT/TAG NAME
+			//"my-component" IS A CUSTOM TAG NAME TO SAY YOU WANNA CREATE A COMPONENT
+			Vue.component('my-component', {
+				//allow you to define your template across multiple lines, something you can't do in a regular Javascript string.
+				//PUT REGULAR ELEMENT INSIDE THE TEMPLATE
+				template: '<strong>A static element...</strong>'
+			});
+			
+			//THIS IS A VUE INSTANCE
+			var vm1 = new Vue({
+				el: '#app1',
+				//CREATE A LOCAL COMPONENT ONLY KNOWN BY THIS VUE INSTANCE BY USING THE COMPONENTS OPTION
+				components: {
+					//THIS IS AN OBJECT WITH CUSTOM TAG NAMES AS KEYS AND COMPONENT OPTION OBJECTS AS VALUES
+					//THIS CREATES A NEW COMPONENT AND TELLS IT TO DO WHAT THE "anotherComponent" VARIABLE SAYS
+					'another-component': anotherComponent
+				}
+			});
+			
+/*///////////////
+JS STEP 2
+///////////////*/
+			
+			//CREATING THE APOD COMPONENT WITH VUE INSTANCE
+			Vue.component('a-pod', {
+				//PASTE IN TEMPLATE WHAT WAS ORIGINALLY INSIDE THE DIV (THE IMG TAG)
+				//ADD <p>{{date || today}}</p> TO SHOW THE DATE
+				//WRAP IT ALL IN A DIV OR YOU'LL GETTING AN ERROR SAYING YOU DONT HAVE A ROOT ELEMENT
+				//IT GETS TOO LONG SO PUT IT INTO NEW LINES WITH A BACK SLASH "\"
+				template: '<div> \
+								<img :src="imgSrc" :title="imgTitle"> \
+								<p>{{date || "today"}}</p> \
+							</div>',
+				//componentS won’t be useful unless you can pass data to it, such as the title and content of the specific post we want to display. That’s where props come in.
+				//Props are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance.
+				//INCLUDING THE NAME IN A PROPS OPTION SO YOU CAN USE THE PROP JUST LIKE A DATA PROPERTY
+				props: ['date'],
+				//PASTE IN ALL THE OBJECTS FROM THE "vm2"
+				//CHANGE DATA INTO A FUNCTION THAT RETURNS THE OBJECT
+				data: function () {
+					return {
+						imgSrc: '',
+						imgTitle: ''
+					}
+				},
+				created: function () {
+					this.fetchApod();
+				},
+				methods: {
+					fetchApod: function () {
+						var apiKey = 'lkgI9to0hRizfzk4xTAxtNTTFkkA4Mtq7y1yW5me';
+						var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+						//DATE WILL JUST BE UNDEFINED IF IT ISN'T PASSED IN A PROP
+						//SO MAKE IT A DEFAULT WITH IF STATEMENT
+						
+						if (this.data) {
+							//BY SAYING IF THERE IS A DATE THAN URL PLUS AMBERSAND DATE EQUALS THE VALUE OF THE DATE PROPERTY SO WE CAN ADD IT THE THE QUERY STREAM
+							url += '&date=' + this.date;
+						}
+						//STORING A REFERENCE OF THIS TO A VARIABLE "self"
+						var self = this;
+						axios.get(url)
+							.then(function (res) {
+								//CHANGE VM2 BECAUSE ITS NOT INSIDE OF IT ANYMORE AND NOW "vm2" IS OWNED BY "imgSrc" AND "imgTitle"
+								self.imgSrc = res.data.url;
+								self.imgTitle = res.data.title;
+							});
+					}
+				}   
+			});
+			
+			var vm2 = new Vue({
+				el: '#app2',
+				//REMOVE EVERYTHING EXCEPT THE ELEMENT PUT INTO "a-pod" COMPONENT
+//				data: {
+//					imgSrc: '',
+//					imgTitle: ''
+//				},
+//				created: function () {
+//					this.fetchApod();
+//				},
+//				methods: {
+//					fetchApod: function () {
+//						var apiKey = 'lkgI9to0hRizfzk4xTAxtNTTFkkA4Mtq7y1yW5me';
+//						var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+//						axios.get(url)
+//							.then(function (res) {
+//								vm2.imgSrc = res.data.url;
+//								vm2.imgTitle = res.data.title;
+//							});
+//					}
+//				}   
+			});  
+			
+/*///////////////
+JS STEP 3
+///////////////*/
+			
+			//CREATING THE APOD COMPONENT WITH VUE INSTANCE
+			Vue.component('a-pod', {
+				//JUST ADDED WIDTH AND HEIGHT TO MAKE IT EASIER TO SEE
+				//CAPTION UNDERNEATH CAN BE ANY MARKUP YOU CHOOSE
+				//REPLACE IT WITH SLOT
+				//PUT P TAG INSIDE OF SLOTS ELEMENT
+				//IF YOU WANT DEFAULT CONTENT PUT IT (P TAGS) IN BETWEEN THE SLOT TAGS 
+				//GET RID OF P TAGS INSIDE THE SLOT TAG
+				//ADD SLOT COMPONENT ABOVE THE IMAGE TAG
+				//PUT H3 TITLE IN THE SLOT COMPONENT
+				//ADD "name" ATTRIBUTE TO EACH SLOT COMPONENT TO HAVE THE INNER HTML BE INSERTED
+				//THESE NAMES ALLOW YOU TO USE "slot" AS AN ATTRIBUTE AND PUT THE NAME INSIDE THAT ATTRIBUTE TO BE CALLED AND DISPLAYED
+				//ADD ':date="date"' TO "slot" COMPONENT TAG AND AFTER YOU HAVE TO GO UP THE THE HTML TO CHANGE THAT AS WELL
+				//":date" IS A DYNAMIC PROPERTY NOT THE LITERAL STRING
+				//CHANGE SOME STUFF IN THE HTML
+				
+				template:	'<div> \
+								<slot name="title"><h3>title from js</h3></slot> \
+								<img width="300" height="200" :src="imgSrc" :title="imgTitle"> \
+								<slot name="caption" :date="date"></slot> \
+							</div>',
+				props: ['date'],
+				data: function () {
+					return {
+						imgSrc: '',
+						imgTitle: ''
+					}
+				},
+				created: function () {
+					this.fetchApod();
+				},
+				methods: {
+					fetchApod: function () {
+						var apiKey = 'lkgI9to0hRizfzk4xTAxtNTTFkkA4Mtq7y1yW5me';
+						var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+						
+						if (this.data) {
+							url += '&date=' + this.date;
+						}
+						var self = this;
+						axios.get(url)
+							.then(function (res) {
+								self.imgSrc = res.data.url;
+								self.imgTitle = res.data.title;
+							});
+					}
+				}   
+			});
+			
+			var vm3 = new Vue({
+				el: '#app3',
+			});  
+			
+		</script>
+	</body>
+</html>
